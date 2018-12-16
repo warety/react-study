@@ -1,28 +1,35 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
 
-class App extends Component {
-  render() {
+import Sidebar from './components/Sidebar'
+import ChatHeader from './components/ChatHeader'
+import Chat from './components/Chat';
+
+import { chats, messages } from './mock_data';
+
+
+const styles = theme => ({
+  root: {
+    position: 'relative',
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    backgroundColor: theme.palette.background.default,
+  },
+});
+
+class App extends React.Component {
+
+  render () {
+    const { classes } = this.props;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className={classes.root}>
+        <ChatHeader />
+        <Sidebar chats={chats} />
+        <Chat messages={messages} />
       </div>
     );
   }
 }
 
-export default App;
+export default withStyles(styles)(App);
