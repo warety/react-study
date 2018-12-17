@@ -14,12 +14,12 @@ const styles = theme => ({
 
 const ChatHeader = ({ classes }) => (
   <AppBar color="primary" className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="title" color="inherit" noWrap>
-              My Study chat
-            </Typography>
-          </Toolbar>
-        </AppBar>
+    <Toolbar>
+      <Typography variant="title" color="inherit" noWrap>
+        My Study chat
+      </Typography>
+    </Toolbar>
+  </AppBar>
 )
 
 export default withStyles(styles)(ChatHeader);
