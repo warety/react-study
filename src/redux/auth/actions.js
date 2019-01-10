@@ -1,4 +1,5 @@
 import TYPES from './constants';
+import callApi from '../../utils/call-api';
 
 export function signup(username, password) {
   return (disptach) => {
@@ -6,25 +7,10 @@ export function signup(username, password) {
       type: TYPES.SIGNUP_REQUEST
     })
 
-    return fetch('http://localhost:8000/v1/signup', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      })
+    return callApi('/signup', undefined, { method: 'POST' }, {
+      username,
+      password,
     })
-      .then(res => res.json())
-      .then(json => {
-        if (json.success) {
-          return json
-        }
-
-        throw new Error(json.message);
-      })
       .then(json => {
         if (!json.token) {
           throw new Error('Token has not been provided!!!')
@@ -46,41 +32,26 @@ export function signup(username, password) {
 
 
 export function login(username, password) {
-  return (disptach) => {
-    disptach({
+  return (dispatch) => {
+    dispatch({
       type: TYPES.LOGIN_REQUEST
     })
 
-    return fetch('http://localhost:8000/v1/login', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      })
+    return callApi('/login', undefined, { method: 'POST' }, {
+      username,
+      password,
     })
-      .then(res => res.json())
-      .then(json => {
-        if (json.success) {
-          return json
-        }
-
-        throw new Error(json.message);
-      })
       .then(json => {
         if (!json.token) {
           throw new Error('Token has not been provided!!!')
         }
         localStorage.setItem('token', json.token)
-        return disptach({
+        return dispatch({
           type: TYPES.LOGIN_SUCCESS,
           payload: json,
         })
       })
-      .catch(error => disptach({
+      .catch(error => dispatch({
         type: TYPES.LOGIN_FAILURE,
         payload: error,
       }))
@@ -89,10 +60,29 @@ export function login(username, password) {
 
 
 export function logout() {
-  return (disptach) => {
-    disptach({
+  return (dispatch) => {
+    dispatch({
       type: TYPES.LOGOUT_REQUEST
     })
   };
+}
+
+export function recieveAuth() {
+  return (dispatch, getState) => {
+    const { token } = getState().auth;
+    dispatch({
+      type: TYPES.RECIEVE_AUTH_REQUEST,
+    })
+
+    return callApi('/users/me', token,)
+      .then(json => dispatch({
+        type: TYPES.RECIEVE_AUTH_SUCCESS,
+        payload: json,
+      }))
+      .catch(reason => dispatch({
+        type: TYPES.RECIEVE_AUTH_FAILURE,
+        payload: reason,
+      }));
+  }
 }
 

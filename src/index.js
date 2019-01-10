@@ -5,7 +5,15 @@ import App from './screens';
 import * as serviceWorker from './serviceWorker';
 import 'typeface-roboto';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const rootEl = document.getElementById('root');
+
+ReactDOM.render(<App />, rootEl);
+
+if (module.hot) {
+  module.hot.accept('./screens', () => {
+    ReactDOM.render(<App />, rootEl);
+  })
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

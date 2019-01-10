@@ -5,11 +5,10 @@ const token = localStorage.getItem('token')
 const initialState = {
   isAuth: !!token,
   user: {},
-  token: '',
+  token,
 };
 
 export default function(state = initialState, action) {
-  console.log(action);
   switch (action.type) {
     case TYPES.SIGNUP_SUCCESS:
     case TYPES.LOGIN_SUCCESS:
@@ -19,7 +18,14 @@ export default function(state = initialState, action) {
         user: action.payload.user,
         token: action.payload.token,
       };
+    case TYPES.RECIEVE_AUTH_SUCCESS:
+      return {
+        ...state,
+        isAuth: true,
+        user: action.payload.user,
+      };
     case TYPES.LOGIN_FAILURE:
+    case TYPES.RECIEVE_AUTH_FAILURE:
       return {
         ...state,
         isAuth: false,
