@@ -8,13 +8,22 @@ class SignUpForm extends React.Component {
     repeatPassword: '',
   }
 
-  handleUsername = (e) => this.setState({...this.state, login: e.target.value});
+  handleInput = (event) => {
+    event.persist();
+    const { name, value } = event.target
 
-  handlePassword = (e) => this.setState({...this.state, password: e.target.value});
+    this.setState((prevState) => ({
+      ...prevState,
+      [name]: value
+    }))
+  }
 
-  handleRepeatPassword = (e) => this.setState({...this.state, repeatPassword: e.target.value})
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { login, password } = this.state;
 
-  handleSubmit = () => alert(123);
+    this.props.onSubmit(login, password);
+  }
 
   render() {
     const { login, password, repeatPassword } = this.state;
@@ -25,27 +34,30 @@ class SignUpForm extends React.Component {
           fullWidth
           label="Username"
           type="text"
+          name='login'
           margin="normal"
           value={login}
-          onChange={this.handleUsername}
+          onChange={this.handleInput}
         />
         <TextField
           required
           fullWidth
           label="Password"
           type="password"
+          name="password"
           margin="normal"
           value={password}
-          onChange={this.handlePassword}
+          onChange={this.handleInput}
         />
         <TextField
           required
           fullWidth
           label="Repeat password"
           type="password"
+          name="repeatPassword"
           margin="normal"
           value={repeatPassword}
-          onChange={this.handleRepeatPassword}
+          onChange={this.handleInput}
         />
         <Button
           fullWidth

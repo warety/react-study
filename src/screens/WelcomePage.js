@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -33,8 +34,12 @@ class WelcomePage extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, signup, login, isAuth } = this.props;
     const { value } = this.state;
+
+    if (isAuth) {
+      return <Redirect to='/chat' />
+    }
     return (
       <>
         <AppBar color="primary" className={classes.appBar}>
@@ -48,13 +53,13 @@ class WelcomePage extends React.Component {
           <Grid item>
             <Paper className={classes.paper}>
               <AppBar position="static" color="inherit">
-                <Tabs value={value} onChange={this.handleChange} fullWidth>
+                <Tabs value={value} onChange={this.handleChange} variant="fullWidth">
                   <Tab label="LOGIN" />
                   <Tab label="SIGN UP" />
                 </Tabs>
                 <div className={classes.tabContent}>
-                  {value === 0 && <LoginForm />}
-                  {value === 1 && <SignUpForm />}
+                  {value === 0 && <LoginForm onSubmit={login}/>}
+                  {value === 1 && <SignUpForm onSubmit={signup}/>}
                 </div>
               </AppBar>
             </Paper>

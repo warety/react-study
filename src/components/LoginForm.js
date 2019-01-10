@@ -8,11 +8,23 @@ class LoginForm extends React.Component {
     password: '',
   }
 
-  handleUsername = (e) => this.setState({...this.state, login: e.target.value});
 
-  handlePassword = (e) => this.setState({...this.state, password: e.target.value});
+  handleInput = (event) => {
+    event.persist();
+    const { name, value } = event.target
 
-  handleSubmit = () => alert(`Hello, ${this.state.login}`);
+    this.setState((prevState) => ({
+      ...prevState,
+      [name]: value
+    }))
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { login, password } = this.state;
+
+    this.props.onSubmit(login, password);
+  }
 
   render() {
     const { login, password } = this.state;
@@ -23,18 +35,20 @@ class LoginForm extends React.Component {
           fullWidth
           label="Username"
           type="text"
+          name="login"
           margin="normal"
           value={login}
-          onChange={this.handleUsername}
+          onChange={this.handleInput}
         />
         <TextField
           required
           fullWidth
           label="Password"
+          name="password"
           type="password"
           margin="normal"
           value={password}
-          onChange={this.handlePassword}
+          onChange={this.handleInput}
         />
         <Button
           fullWidth
@@ -42,7 +56,7 @@ class LoginForm extends React.Component {
           type="submit"
           color="primary"
         >
-        Login
+          Login
         </Button>
       </form>
     )
