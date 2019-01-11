@@ -12,6 +12,7 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case TYPES.SIGNUP_SUCCESS:
     case TYPES.LOGIN_SUCCESS:
+    case TYPES.EDIT_USER_SUCCESS:
       return {
         ...state,
         isAuth: true,
@@ -24,8 +25,10 @@ export default function(state = initialState, action) {
         isAuth: true,
         user: action.payload.user,
       };
+    case TYPES.SIGNUP_FAILURE:
     case TYPES.LOGIN_FAILURE:
     case TYPES.RECIEVE_AUTH_FAILURE:
+    case TYPES.LOGOUT_SUCCESS:
       return {
         ...state,
         isAuth: false,
@@ -36,8 +39,3 @@ export default function(state = initialState, action) {
       return state;
   }
 }
-
-
-// case TYPES.SIGNUP_SUCCESS:
-
-// case TYPES.SIGNUP_FAILURE:

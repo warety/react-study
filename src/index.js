@@ -4,14 +4,25 @@ import './index.css';
 import App from './screens';
 import * as serviceWorker from './serviceWorker';
 import 'typeface-roboto';
+import configureStore from './redux/store/index';
+import { Provider } from 'react-redux';
 
 const rootEl = document.getElementById('root');
+const store = configureStore()
 
-ReactDOM.render(<App />, rootEl);
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+  , rootEl);
+
+
 
 if (module.hot) {
   module.hot.accept('./screens', () => {
-    ReactDOM.render(<App />, rootEl);
+    ReactDOM.render(<Provider store={store}>
+      <App />
+    </Provider>, rootEl);
   })
 }
 

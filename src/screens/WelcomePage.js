@@ -10,6 +10,7 @@ import Tab from '@material-ui/core/Tab';
 
 import LoginForm from '../components/LoginForm';
 import SignUpForm from '../components/SignUpForm';
+import ErrorMessage from '../components/ErrorMessage';
 
 const styles = theme => ({
   appBar: {
@@ -34,7 +35,7 @@ class WelcomePage extends React.Component {
   };
 
   render() {
-    const { classes, signup, login, isAuth } = this.props;
+    const { classes, signup, login, isAuth, error } = this.props;
     const { value } = this.state;
 
     if (isAuth) {
@@ -65,6 +66,7 @@ class WelcomePage extends React.Component {
             </Paper>
           </Grid>
         </Grid>
+        <ErrorMessage error={error} />
       </>
     )
   }

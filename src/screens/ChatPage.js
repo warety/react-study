@@ -5,40 +5,78 @@ import { withStyles } from '@material-ui/core/styles';
 import Sidebar from '../components/Sidebar'
 import ChatHeader from '../components/ChatHeader'
 import Chat from '../components/Chat';
+import ErrorMessage from '../components/ErrorMessage';
 
-import { messages } from '../mock_data';
-
-
-const styles = theme => ({
-  root: {
-    position: 'relative',
-    display: 'flex',
-    width: '100%', 
-    height: '100%',
-    backgroundColor: theme.palette.background.default,
-  },
-});
 
 
 class ChatPage extends React.Component {
 
   componentDidMount() {
-    const { fetchAllChats, fetchMyChats } = this.props;
+    const { fetchAllChats, fetchMyChats, match, setActiveChat, socketsConnect, mountChat } = this.props;
     Promise.all([
       fetchAllChats(),
       fetchMyChats(),
     ])
+      .then(() => {
+        socketsConnect();
+      })
+      .then(() => {
+        const { chatId } = match.params;
+        if (chatId) {
+          setActiveChat(chatId);
+          mountChat(chatId);
+        }
+      })
   }
-  render () {
-    const { classes, chats } = this.props;
+
+  componentWillReceiveProps(nextProps) {
+    const { match: { params }, setActiveChat, mountChat, unmountChat } = this.props;
+    const { params: nextParams } = nextProps.match;
+
+    if (nextParams.chatId && params.chatId !== nextParams.chatId) {
+      setActiveChat(nextParams.chatId);
+      unmountChat(params.chatId);
+      mountChat(params.chatId);
+    }
+  }
+
+  render() {
+    const {
+      logout,
+      chats,
+      activeUser,
+      createChat,
+      joinChat,
+      leaveChat,
+      deleteChat,
+      sendMessage,
+      messages,
+      editUser,
+      error,
+      isConnected,
+    } = this.props;
     return (
-      <div className={classes.root}>
-        <ChatHeader />
-        <Sidebar chats={chats} />
-        <Chat messages={messages} />
-      </div>
+      <>
+        <ChatHeader
+          isConnected={isConnected}
+          activeUser={activeUser}
+          activeChat={chats.active}
+          leaveChat={leaveChat}
+          deleteChat={deleteChat}
+          logout={logout}
+          editUser={editUser} />
+        <Sidebar chats={chats} createChat={createChat} isConnected={isConnected} />
+        <Chat
+          isConnected={isConnected}
+          messages={messages}
+          activeChat={chats.active}
+          activeUser={activeUser}
+          sendMessage={sendMessage}
+          joinChat={joinChat} />
+        <ErrorMessage error={error} />
+      </>
     );
   }
 }
 
-export default withStyles(styles)(ChatPage);
+export default ChatPage;

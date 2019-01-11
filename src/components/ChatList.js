@@ -11,12 +11,20 @@ const styles = theme => ({
   },
 })
 
-const ChatList = ({ classes, chats }) => (
-  <List className={classes.chatsList}>
-    {chats.map((chat, index) => (
-      <ChatListItem key={index} title={chat.title} />
-    ))}
-  </List>
-)
+const ChatList = ({ classes, chats, activeChat, disabled }) => {
+  return (
+    <List className={classes.chatsList}>
+      {chats.map((chat, index) => (
+        <ChatListItem
+          disabled={disabled}
+          key={index}
+          active={activeChat && activeChat._id === chat._id}
+          title={chat.title}
+          chatId={chat._id}
+          {...chat} />
+      ))}
+    </List>
+  )
+}
 
 export default withStyles(styles)(ChatList)

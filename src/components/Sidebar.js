@@ -9,24 +9,23 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 import ChatList from './ChatList';
 
-import Fab from '@material-ui/core/Fab';
-
 import RestoreIcon from '@material-ui/icons/Restore';
 import ExploreIcon from '@material-ui/icons/Explore';
-import AddIcon from '@material-ui/icons/Add';
-
+import AddChatButton from './AddChatButton';
 
 
 const styles = theme => ({
+  drawer: {
+    width: 320,
+    flexShrink: 0,
+  },
   drawerPaper: {
-    position: 'relative',
-    height: '100%',
     width: 320,
   },
-  drawerHeader: {
-    ...theme.mixins.toolbar,
-    paddingLeft: theme.spacing.unit * 3,
-    paddingRight: theme.spacing.unit * 3,
+  bottomNav: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
   },
   newChatButton: {
     position: 'absolute',
@@ -36,32 +35,64 @@ const styles = theme => ({
   },
 });
 
-const Sidebar = ({ classes, chats }) => (
-  <Drawer
-    variant="permanent"
-    classes={{
-      paper: classes.drawerPaper,
-    }}
-  >
-    <div className={classes.drawerHeader}>
-      <TextField
-        fullWidth
-        margin="normal"
-        placeholder="Search chats..."
-      />
-    </div>
-    <Divider />
-    <ChatList chats={chats} />
-    <div className={classes.bottomNavigationWrapper}> 
-      <Fab color="primary" aria-label="Add" className={classes.newChatButton}>
-        <AddIcon />
-      </Fab>
-      <BottomNavigation showLabels>
-        <BottomNavigationAction label="My Chats" icon={<RestoreIcon />} />
-        <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
-      </BottomNavigation>
-    </div>
-  </Drawer>
-);
+
+class Sidebar extends React.Component {
+  state = {
+    searchValue: '',
+    activeTab: 0,
+  }
+
+  handleTabChange = (event, value) => {
+    this.setState({
+      activeTab: value,
+    })
+  }
+
+  filterChats = (chats) => {
+    const { searchValue } = this.state;
+
+    return chats
+      .filter(chat => chat.title
+        .toLowerCase()
+        .includes(searchValue.toLowerCase())
+      )
+      .sort((one, two) =>
+        one.title.toLowerCase() <= two.title.toLowerCase() ? -1 : 1
+      );
+  }
+
+  render() {
+    const { classes, chats, createChat, isConnected } = this.props;
+    const { activeTab } = this.state;
+    return (
+      <Drawer
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <TextField
+            fullWidth
+            margin="normal"
+            placeholder="Search chats..."
+          />
+        </div>
+        <Divider />
+        <ChatList disabled={!isConnected} chats={activeTab === 0 ? chats.my : chats.all} activeChat={chats.active} />
+        <div className={classes.bottomNavigationWrapper}>
+          <AddChatButton onClick={createChat} disabled={!isConnected}/>
+          <BottomNavigation
+            value={activeTab}
+            onChange={this.handleTabChange}
+            showLabels>
+            <BottomNavigationAction label="My Chats" icon={<RestoreIcon />} />
+            <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
+          </BottomNavigation>
+        </div>
+      </Drawer>
+    )
+  }
+}
 
 export default withStyles(styles)(Sidebar);

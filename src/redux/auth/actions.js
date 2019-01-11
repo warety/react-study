@@ -2,7 +2,12 @@ import TYPES from './constants';
 import callApi from '../../utils/call-api';
 
 export function signup(username, password) {
-  return (disptach) => {
+  return (disptach, getState) => {
+    const { isFetching } = getState().services;
+
+    if (isFetching.signup) {
+      return Promise.resolve();
+    }
     disptach({
       type: TYPES.SIGNUP_REQUEST
     })
@@ -32,7 +37,12 @@ export function signup(username, password) {
 
 
 export function login(username, password) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const { isFetching } = getState().services;
+
+    if (isFetching.login) {
+      return Promise.resolve();
+    }
     dispatch({
       type: TYPES.LOGIN_REQUEST
     })
@@ -58,17 +68,13 @@ export function login(username, password) {
   };
 }
 
-
-export function logout() {
-  return (dispatch) => {
-    dispatch({
-      type: TYPES.LOGOUT_REQUEST
-    })
-  };
-}
-
 export function recieveAuth() {
   return (dispatch, getState) => {
+    const { isFetching } = getState().services;
+
+    if (isFetching.recieveAuth) {
+      return Promise.resolve();
+    }
     const { token } = getState().auth;
     dispatch({
       type: TYPES.RECIEVE_AUTH_REQUEST,
@@ -84,5 +90,62 @@ export function recieveAuth() {
         payload: reason,
       }));
   }
+}
+
+export function editUser({ username, firstName, lastName }) {
+  return (dispatch, getState) => {
+    const { token } = getState().auth;
+    const { isFetching } = getState().services;
+
+    if (isFetching.editUser) {
+      return Promise.resolve();
+    }
+
+    dispatch({
+      type: TYPES.EDIT_USER_REQUEST
+    })
+
+    return callApi('/users/me', token, { method: 'POST' }, {
+      data: { username, firstName, lastName }
+    })
+      .then(json => {
+        return dispatch({
+          type: TYPES.EDIT_USER_SUCCESS,
+          payload: json,
+        })
+      }
+        )
+      .catch(reason => dispatch({
+        type: TYPES.EDIT_USER_FAILURE,
+        payload: reason,
+      }));
+  };
+};
+
+export function logout() {
+  return (dispatch, getState) => {
+
+    const { isFetching } = getState().services;
+
+    if (isFetching.logout) {
+      return Promise.resolve();
+    }
+    dispatch({
+      type: TYPES.LOGOUT_REQUEST
+    });
+
+    return callApi('/logout')
+      .then(json => {
+        localStorage.removeItem('token');
+        dispatch({
+          type: TYPES.LOGOUT_SUCCESS,
+          payload: json
+        })
+      })
+      .catch(reason => dispatch({
+        type: TYPES.LOGOUT_FAILURE,
+        payload: reason,
+      }));
+  };
 }
 
