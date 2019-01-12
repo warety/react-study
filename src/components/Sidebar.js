@@ -57,6 +57,12 @@ class Sidebar extends React.Component {
     });
   };
 
+  handleSearchChange = (event) => {
+    this.setState({
+      searchValue: event.target.value,
+    });
+  };
+
   filterChats = (chats) => {
     const { searchValue } = this.state;
 
@@ -69,7 +75,7 @@ class Sidebar extends React.Component {
     const {
       classes, chats, createChat, isConnected,
     } = this.props;
-    const { activeTab } = this.state;
+    const { activeTab, searchValue } = this.state;
     return (
       <Drawer
         variant="permanent"
@@ -78,12 +84,18 @@ class Sidebar extends React.Component {
         }}
       >
         <div className={classes.drawerHeader}>
-          <TextField fullWidth margin="normal" placeholder="Search chats..." />
+          <TextField
+            fullWidth
+            margin="normal"
+            placeholder="Search chats..."
+            onChange={this.handleSearchChange}
+            value={searchValue}
+          />
         </div>
         <Divider />
         <ChatList
           disabled={!isConnected}
-          chats={activeTab === 0 ? chats.my : chats.all}
+          chats={this.filterChats(activeTab === 0 ? chats.my : chats.all)}
           activeChat={chats.active}
         />
         <div className={classes.bottomNavigationWrapper}>
