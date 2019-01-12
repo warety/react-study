@@ -18,6 +18,11 @@ export default function (state = initialState, action) {
         user: action.payload.user,
         token: action.payload.token,
       };
+    case TYPES.EDIT_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload.user,
+      };
     case TYPES.RECIEVE_AUTH_SUCCESS:
       return {
         ...state,
