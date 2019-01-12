@@ -28,7 +28,9 @@ class ChatMessageList extends React.Component {
 
   scrollDownHistory() {
     if (this.messagesWrapper) {
-      this.messagesWrapper.scrollTop = this.messagesWrapper.scrollHeight;
+      window.scrollTo({
+        top: this.messagesWrapper.offsetTop,
+      });
     }
   }
 
@@ -38,13 +40,11 @@ class ChatMessageList extends React.Component {
     return messages && messages.length ? (
       <div
         className={classes.messagesWrapper}
-        ref={(wrapper) => {
-          this.messagesWrapper = wrapper;
-        }}
       >
         {messages.map(message => (
           <ChatMessage key={message._id} activeUser={activeUser} {...message} />
         ))}
+        <div ref={(wrapper) => { this.messagesWrapper = wrapper; }} />
       </div>
     ) : (
       <Typography variant="display1">There is no messages yet...</Typography>

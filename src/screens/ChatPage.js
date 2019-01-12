@@ -86,7 +86,7 @@ class ChatPage extends React.Component {
     if (nextParams.chatId && params.chatId !== nextParams.chatId) {
       setActiveChat(nextParams.chatId);
       unmountChat(params.chatId);
-      mountChat(params.chatId);
+      mountChat(nextParams.chatId);
     }
   }
 
