@@ -12,7 +12,6 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case TYPES.SIGNUP_SUCCESS:
     case TYPES.LOGIN_SUCCESS:
-    case TYPES.EDIT_USER_SUCCESS:
       return {
         ...state,
         isAuth: true,
