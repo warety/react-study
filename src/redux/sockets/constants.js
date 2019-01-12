@@ -12,6 +12,6 @@ const TYPES = {
   RECIEVE_MESSAGE: Symbol('RECIEVE_MESSAGE'),
   RECIEVE_NEW_CHAT: Symbol('RECIEVE_NEW_CHAT'),
   RECIEVE_DELETED_CHAT: Symbol('RECIEVE_DELETED_CHAT'),
-}
+};
 
-export default TYPES
+export default TYPES;

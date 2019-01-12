@@ -1,6 +1,5 @@
 const TYPES = {
   REDIRECT: Symbol('REDIRECT'),
-}
+};
 
-export default TYPES
-
+export default TYPES;

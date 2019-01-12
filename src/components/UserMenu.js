@@ -6,7 +6,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import EditUserProfileModal from './EditUserProfileModal';
 
 class UserMenu extends React.Component {
-
   state = {
     anchorEl: null,
     modalOpen: false,
@@ -19,14 +18,14 @@ class UserMenu extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { username, firstName, lastName } = nextProps.activeUser;
-    this.setState({
-      ...this.state,
+    this.setState(prevState => ({
+      ...prevState,
       editProfileForm: {
         username,
         firstName,
         lastName,
       },
-    });
+    }));
   }
 
   openMenu = event => this.setState({ anchorEl: event.currentTarget });
@@ -37,19 +36,19 @@ class UserMenu extends React.Component {
 
   handleToggleModal = () => {
     const { modalOpen } = this.state;
-    this.setState({ ...this.state, modalOpen: !modalOpen });
+    this.setState(prevState => ({ ...prevState, modalOpen: !modalOpen }));
     this.closeMenu();
   };
 
   onInputChange = (event) => {
     const { editProfileForm } = this.state;
-    this.setState({
-      ...this.state,
+    this.setState(prevState => ({
+      prevState,
       editProfileForm: {
         ...editProfileForm,
         [event.target.name]: event.target.value,
       },
-    });
+    }));
   };
 
   updateProfile = () => {

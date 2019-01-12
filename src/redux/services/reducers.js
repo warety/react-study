@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'; 
+import { combineReducers } from 'redux';
 import authTypes from '../auth/constants';
 import chatsTypes from '../chats/constants';
 import socketsTypes from '../sockets/constants';
@@ -24,7 +24,7 @@ const initialState = {
     chat: null,
   },
   isConnected: false,
-}
+};
 
 export const isFetching = (state = initialState.isFetching, action) => {
   switch (action.type) {
@@ -97,22 +97,18 @@ export const isFetching = (state = initialState.isFetching, action) => {
     default:
       return state;
   }
-}
+};
 
 export const errors = (state = initialState.errors, action) => {
   switch (action.type) {
     case authTypes.SIGNUP_FAILURE:
     case authTypes.LOGIN_FAILURE:
     case authTypes.LOGOUT_FAILURE:
-      // Used for internal needs
-      // case types.RECIEVE_AUTH_FAILURE:
       return { ...state, auth: action.payload };
 
     case authTypes.SIGNUP_SUCCESS:
     case authTypes.LOGIN_SUCCESS:
     case authTypes.LOGOUT_SUCCESS:
-      // Used for internal needs
-      // case types.RECIEVE_AUTH_SUCCESS:
       return { ...state, auth: null };
 
     case chatsTypes.FETCH_ALL_CHATS_FAILURE:
@@ -152,12 +148,12 @@ export const isConnected = (state = initialState.isConnected, action) => {
   }
 };
 
-export const getChatError = (state) => state.services.errors.chat;
-export const getAuthError = (state) => state.services.errors.auth;
-export const getIsConnected = (state) => state.services.isConnected;
+export const getChatError = state => state.services.errors.chat;
+export const getAuthError = state => state.services.errors.auth;
+export const getIsConnected = state => state.services.isConnected;
 
 export default combineReducers({
   isFetching,
   errors,
   isConnected,
-})
+});

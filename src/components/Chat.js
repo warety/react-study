@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import ChatMessageList from './ChatMessageList';
 import TextInput from './TextInput';
 
-const styles = theme => ({
+const styles = () => ({
   chatLayout: {
     display: 'flex',
     justifyContent: 'center',
@@ -17,21 +17,28 @@ const styles = theme => ({
   },
 });
 
-
-
-
-const Chat = ({ classes, messages, activeUser, activeChat, joinChat, sendMessage, isConnected }) => (
+const Chat = ({
+  classes,
+  messages,
+  activeUser,
+  activeChat,
+  joinChat,
+  sendMessage,
+  isConnected,
+}) => (
   <main className={classes.chatLayout}>
     <ChatMessageList messages={messages} activeUser={activeUser} />
-    {activeChat && <TextInput
-      disabled={!isConnected}
-      sendMessage={sendMessage}
-      showJoinButton={!activeUser.isChatMember}
-      onJoinButtonClick={() => joinChat(activeChat._id)}
-      activeUser={activeUser}
-      placeholder={'Type your message…'}
-    />}
+    {activeChat && (
+      <TextInput
+        disabled={!isConnected}
+        sendMessage={sendMessage}
+        showJoinButton={!activeUser.isChatMember}
+        onJoinButtonClick={() => joinChat(activeChat._id)}
+        activeUser={activeUser}
+        placeholder="Type your message…"
+      />
+    )}
   </main>
-)
+);
 
 export default withRouter(withStyles(styles)(Chat));

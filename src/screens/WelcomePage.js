@@ -15,7 +15,7 @@ import ErrorMessage from '../components/ErrorMessage';
 const styles = theme => ({
   appBar: {
     position: 'fixed',
-    width: `100%`,
+    width: '100%',
   },
   paper: {
     marginTop: 64 + theme.spacing.unit * 3,
@@ -24,22 +24,25 @@ const styles = theme => ({
   tabContent: {
     padding: theme.spacing.unit * 3,
   },
-})
+});
 
 class WelcomePage extends React.Component {
   state = {
     value: 0,
   };
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
 
   render() {
-    const { classes, signup, login, isAuth, error } = this.props;
+    const {
+      classes, signup, login, isAuth, error,
+    } = this.props;
     const { value } = this.state;
 
     if (isAuth) {
-      return <Redirect to='/chat' />
+      return <Redirect to="/chat" />;
     }
     return (
       <>
@@ -47,10 +50,10 @@ class WelcomePage extends React.Component {
           <Toolbar>
             <Typography variant="title" color="inherit" style={{ flex: 1 }}>
               WelcomePage
-          </Typography>
+            </Typography>
           </Toolbar>
         </AppBar>
-        <Grid container justify='center'>
+        <Grid container justify="center">
           <Grid item>
             <Paper className={classes.paper}>
               <AppBar position="static" color="inherit">
@@ -59,8 +62,8 @@ class WelcomePage extends React.Component {
                   <Tab label="SIGN UP" />
                 </Tabs>
                 <div className={classes.tabContent}>
-                  {value === 0 && <LoginForm onSubmit={login}/>}
-                  {value === 1 && <SignUpForm onSubmit={signup}/>}
+                  {value === 0 && <LoginForm onSubmit={login} />}
+                  {value === 1 && <SignUpForm onSubmit={signup} />}
                 </div>
               </AppBar>
             </Paper>
@@ -68,8 +71,8 @@ class WelcomePage extends React.Component {
         </Grid>
         <ErrorMessage error={error} />
       </>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(WelcomePage)
+export default withStyles(styles)(WelcomePage);

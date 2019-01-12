@@ -10,20 +10,20 @@ const styles = theme => ({
     left: 'auto',
     right: 0,
     bottom: 0,
-    width: `calc(100% - 420px)`,
+    width: 'calc(100% - 420px)',
     padding: theme.spacing.unit * 3,
   },
   messageInput: {
     padding: theme.spacing.unit * 2,
   },
-})
+});
 
 class TextInput extends React.Component {
   state = {
     value: '',
-  }
+  };
 
-  handleValueChange = (event) => this.setState({ value: event.target.value });
+  handleValueChange = event => this.setState({ value: event.target.value });
 
   handleKeyPress = (event) => {
     const { value } = this.state;
@@ -32,11 +32,12 @@ class TextInput extends React.Component {
       this.props.sendMessage(value);
       this.setState({ value: '' });
     }
-  }
-
+  };
 
   render() {
-    const { classes, placeholder, showJoinButton, onJoinButtonClick, disabled } = this.props;
+    const {
+      classes, placeholder, showJoinButton, onJoinButtonClick, disabled,
+    } = this.props;
     return (
       <div className={classes.messageInputWrapper}>
         <Paper className={classes.messageInput} elevation={6}>
@@ -51,19 +52,19 @@ class TextInput extends React.Component {
               Join
             </Button>
           ) : (
-              <Input
-                disabled={disabled}
-                fullWidth
-                placeholder={placeholder}
-                value={this.state.value}
-                onChange={this.handleValueChange}
-                onKeyPress={this.handleKeyPress}
-              />
-            )}
+            <Input
+              disabled={disabled}
+              fullWidth
+              placeholder={placeholder}
+              value={this.state.value}
+              onChange={this.handleValueChange}
+              onKeyPress={this.handleKeyPress}
+            />
+          )}
         </Paper>
       </div>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(TextInput)
+export default withStyles(styles)(TextInput);

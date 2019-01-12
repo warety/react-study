@@ -1,22 +1,21 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 
-
-import Sidebar from '../components/Sidebar'
-import ChatHeader from '../components/ChatHeader'
+import Sidebar from '../components/Sidebar';
+import ChatHeader from '../components/ChatHeader';
 import Chat from '../components/Chat';
 import ErrorMessage from '../components/ErrorMessage';
 
-
-
 class ChatPage extends React.Component {
-
   componentDidMount() {
-    const { fetchAllChats, fetchMyChats, match, setActiveChat, socketsConnect, mountChat } = this.props;
-    Promise.all([
-      fetchAllChats(),
-      fetchMyChats(),
-    ])
+    const {
+      fetchAllChats,
+      fetchMyChats,
+      match,
+      setActiveChat,
+      socketsConnect,
+      mountChat,
+    } = this.props;
+    Promise.all([fetchAllChats(), fetchMyChats()])
       .then(() => {
         socketsConnect();
       })
@@ -26,11 +25,16 @@ class ChatPage extends React.Component {
           setActiveChat(chatId);
           mountChat(chatId);
         }
-      })
+      });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { match: { params }, setActiveChat, mountChat, unmountChat } = this.props;
+    const {
+      match: { params },
+      setActiveChat,
+      mountChat,
+      unmountChat,
+    } = this.props;
     const { params: nextParams } = nextProps.match;
 
     if (nextParams.chatId && params.chatId !== nextParams.chatId) {
@@ -64,7 +68,8 @@ class ChatPage extends React.Component {
           leaveChat={leaveChat}
           deleteChat={deleteChat}
           logout={logout}
-          editUser={editUser} />
+          editUser={editUser}
+        />
         <Sidebar chats={chats} createChat={createChat} isConnected={isConnected} />
         <Chat
           isConnected={isConnected}
@@ -72,7 +77,8 @@ class ChatPage extends React.Component {
           activeChat={chats.active}
           activeUser={activeUser}
           sendMessage={sendMessage}
-          joinChat={joinChat} />
+          joinChat={joinChat}
+        />
         <ErrorMessage error={error} />
       </>
     );

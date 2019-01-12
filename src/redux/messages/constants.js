@@ -18,7 +18,6 @@ const TYPES = {
   EDIT_USER_REQUEST: Symbol('EDIT_USER_REQUEST'),
   EDIT_USER_SUCCESS: Symbol('EDIT_USER_SUCCESS'),
   EDIT_USER_FAILURE: Symbol('EDIT_USER_FAILURE'),
-}
+};
 
-export default TYPES
-
+export default TYPES;

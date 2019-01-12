@@ -6,24 +6,24 @@ class SignUpForm extends React.Component {
     login: '',
     password: '',
     repeatPassword: '',
-  }
+  };
 
   handleInput = (event) => {
     event.persist();
-    const { name, value } = event.target
+    const { name, value } = event.target;
 
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       ...prevState,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
     const { login, password } = this.state;
 
     this.props.onSubmit(login, password);
-  }
+  };
 
   render() {
     const { login, password, repeatPassword } = this.state;
@@ -34,7 +34,7 @@ class SignUpForm extends React.Component {
           fullWidth
           label="Username"
           type="text"
-          name='login'
+          name="login"
           margin="normal"
           value={login}
           onChange={this.handleInput}
@@ -59,17 +59,12 @@ class SignUpForm extends React.Component {
           value={repeatPassword}
           onChange={this.handleInput}
         />
-        <Button
-          fullWidth
-          variant="contained"
-          type="submit"
-          color="primary"
-        >
-        SIGN UP
+        <Button fullWidth variant="contained" type="submit" color="primary">
+          SIGN UP
         </Button>
       </form>
-    )
+    );
   }
 }
 
-export default SignUpForm
+export default SignUpForm;

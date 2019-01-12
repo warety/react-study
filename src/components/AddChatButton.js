@@ -22,20 +22,21 @@ const styles = theme => ({
   modal: {
     width: '30%',
     minWidth: '300px',
-    padding: theme.spacing.unit * 3
-  }
+    padding: theme.spacing.unit * 3,
+  },
 });
-
 
 class AddChat extends React.Component {
   state = {
     modalOpen: false,
     title: '',
-  }
+  };
 
-  handleModalClick = () => this.setState({ modalOpen: !this.state.modalOpen });
+  handleModalClick = () => this.setState(prevState => ({
+    modalOpen: !prevState.modalOpen,
+  }));
 
-  handleTitleChange = (event) => this.setState({title: event.target.value});
+  handleTitleChange = event => this.setState({ title: event.target.value });
 
   handleCreateClick = (event) => {
     event.preventDefault();
@@ -44,8 +45,8 @@ class AddChat extends React.Component {
 
     this.props.onClick(title);
     this.handleModalClick();
-    this.setState({title: ''});
-  }
+    this.setState({ title: '' });
+  };
 
   render() {
     const { classes } = this.props;
@@ -61,11 +62,7 @@ class AddChat extends React.Component {
         >
           <AddIcon />
         </Button>
-        <Modal
-          open={modalOpen}
-          className={classes.modalWrapper}
-          onClose={this.handleModalClick}
-        >
+        <Modal open={modalOpen} className={classes.modalWrapper} onClose={this.handleModalClick}>
           <Paper className={classes.modal}>
             <Typography variant="title" id="modal-title">
               Create new chat
@@ -81,16 +78,13 @@ class AddChat extends React.Component {
               value={title}
               onChange={this.handleTitleChange}
             />
-            <Button
-              color="primary"
-              onClick={this.handleCreateClick}
-            >
+            <Button color="primary" onClick={this.handleCreateClick}>
               Create
             </Button>
           </Paper>
         </Modal>
       </div>
-    )
+    );
   }
 }
 

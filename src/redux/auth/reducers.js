@@ -1,6 +1,6 @@
 import TYPES from './constants';
 
-const token = localStorage.getItem('token')
+const token = localStorage.getItem('token');
 
 const initialState = {
   isAuth: !!token,
@@ -8,7 +8,7 @@ const initialState = {
   token,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case TYPES.SIGNUP_SUCCESS:
     case TYPES.LOGIN_SUCCESS:
@@ -34,7 +34,7 @@ export default function(state = initialState, action) {
         isAuth: false,
         user: null,
         token: '',
-      }
+      };
     default:
       return state;
   }

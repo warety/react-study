@@ -13,28 +13,41 @@ const styles = theme => ({
     paddingBottom: '120px',
   },
   paper: {
-    padding: theme.spacing.unit * 3
-  }
+    padding: theme.spacing.unit * 3,
+  },
 });
 
 class ChatMessageList extends React.Component {
+  componentDidMount() {
+    this.scrollDownHistory();
+  }
+
+  componentDidUpdate() {
+    this.scrollDownHistory();
+  }
+
+  scrollDownHistory() {
+    if (this.messagesWrapper) {
+      this.messagesWrapper.scrollTop = this.messagesWrapper.scrollHeight;
+    }
+  }
+
   render() {
     const { classes, messages, activeUser } = this.props;
 
     return messages && messages.length ? (
-      <div className={classes.messagesWrapper} ref="messagesWrapper">
-        {messages.map((message, index) => (
-          <ChatMessage
-            key={index}
-            activeUser={activeUser}
-            {...message}
-          />
+      <div
+        className={classes.messagesWrapper}
+        ref={(wrapper) => {
+          this.messagesWrapper = wrapper;
+        }}
+      >
+        {messages.map(message => (
+          <ChatMessage key={message._id} activeUser={activeUser} {...message} />
         ))}
       </div>
     ) : (
-      <Typography variant="display1">
-        There is no messages yet...
-      </Typography>
+      <Typography variant="display1">There is no messages yet...</Typography>
     );
   }
 }

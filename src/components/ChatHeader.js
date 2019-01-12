@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,7 +10,7 @@ import UserMenu from './UserMenu';
 const styles = theme => ({
   appBar: {
     position: 'fixed',
-    width: `calc(100% - 320px)`,
+    width: 'calc(100% - 320px)',
     marginLeft: 320,
   },
   appBarTitle: {
@@ -21,14 +21,21 @@ const styles = theme => ({
   },
 });
 
-const ChatHeader = ({ classes, activeUser, activeChat, logout, leaveChat, deleteChat, editUser, isConnected }) => (
+const ChatHeader = ({
+  classes,
+  activeUser,
+  activeChat,
+  logout,
+  leaveChat,
+  deleteChat,
+  editUser,
+  isConnected,
+}) => (
   <AppBar color="primary" className={classes.appBar}>
     <Toolbar color="contrast">
       {activeChat ? (
         <>
-          <Avatar colorFrom={activeChat._id}>
-            {activeChat.title}
-          </Avatar>
+          <Avatar colorFrom={activeChat._id}>{activeChat.title}</Avatar>
           <Typography variant="title" className={classes.appBarTitle}>
             {activeChat.title}
             <ChatMenu
@@ -40,10 +47,10 @@ const ChatHeader = ({ classes, activeUser, activeChat, logout, leaveChat, delete
           </Typography>
         </>
       ) : (
-          <Typography variant="title" className={classes.appBarTitle}>
-            StudyChat React
-            </Typography>
-        )}
+        <Typography variant="title" className={classes.appBarTitle}>
+          StudyChat React
+        </Typography>
+      )}
       <UserMenu
         disabled={!isConnected}
         activeUser={activeUser}
@@ -52,6 +59,6 @@ const ChatHeader = ({ classes, activeUser, activeChat, logout, leaveChat, delete
       />
     </Toolbar>
   </AppBar>
-)
+);
 
 export default withStyles(styles)(ChatHeader);

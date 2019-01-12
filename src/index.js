@@ -1,29 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { Provider } from 'react-redux';
 import App from './screens';
 import * as serviceWorker from './serviceWorker';
 import 'typeface-roboto';
 import configureStore from './redux/store/index';
-import { Provider } from 'react-redux';
 
 const rootEl = document.getElementById('root');
-const store = configureStore()
+const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
     <App />
-  </Provider>
-  , rootEl);
-
-
+  </Provider>,
+  rootEl,
+);
 
 if (module.hot) {
   module.hot.accept('./screens', () => {
-    ReactDOM.render(<Provider store={store}>
-      <App />
-    </Provider>, rootEl);
-  })
+    ReactDOM.render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      rootEl,
+    );
+  });
 }
 
 // If you want your app to work offline and load faster, you can change

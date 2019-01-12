@@ -1,30 +1,28 @@
 import React from 'react';
 import { Button, TextField } from '@material-ui/core';
 
-
 class LoginForm extends React.Component {
   state = {
     login: '',
     password: '',
-  }
-
+  };
 
   handleInput = (event) => {
     event.persist();
-    const { name, value } = event.target
+    const { name, value } = event.target;
 
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       ...prevState,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
     const { login, password } = this.state;
 
     this.props.onSubmit(login, password);
-  }
+  };
 
   render() {
     const { login, password } = this.state;
@@ -50,17 +48,12 @@ class LoginForm extends React.Component {
           value={password}
           onChange={this.handleInput}
         />
-        <Button
-          fullWidth
-          variant="contained"
-          type="submit"
-          color="primary"
-        >
+        <Button fullWidth variant="contained" type="submit" color="primary">
           Login
         </Button>
       </form>
-    )
+    );
   }
 }
 
-export default LoginForm
+export default LoginForm;

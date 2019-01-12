@@ -4,7 +4,7 @@ import { redirect } from '../services/actions';
 
 export function fetchAllChats() {
   return (dispatch, getState) => {
-    const { token } = getState().auth
+    const { token } = getState().auth;
     const { isFetching } = getState().services;
 
     if (isFetching.allChats) {
@@ -12,25 +12,23 @@ export function fetchAllChats() {
     }
     dispatch({
       type: TYPES.FETCH_ALL_CHATS_REQUEST,
-    })
+    });
 
     return callApi('/chats', token)
       .then(data => dispatch({
         type: TYPES.FETCH_ALL_CHATS_SUCCESS,
-        payload: data
+        payload: data,
       }))
       .catch(error => dispatch({
         type: TYPES.FETCH_ALL_CHATS_FAILURE,
-        payload: error
-      }))
-  }
+        payload: error,
+      }));
+  };
 }
-
-
 
 export function fetchMyChats() {
   return (dispatch, getState) => {
-    const { token } = getState().auth
+    const { token } = getState().auth;
     const { isFetching } = getState().services;
 
     if (isFetching.myChats) {
@@ -38,23 +36,23 @@ export function fetchMyChats() {
     }
     dispatch({
       type: TYPES.FETCH_MY_CHATS_REQUEST,
-    })
+    });
 
     return callApi('/chats/my', token)
       .then(data => dispatch({
         type: TYPES.FETCH_MY_CHATS_SUCCESS,
-        payload: data
+        payload: data,
       }))
       .catch(error => dispatch({
         type: TYPES.FETCH_MY_CHATS_FAILURE,
-        payload: error
-      }))
-  }
+        payload: error,
+      }));
+  };
 }
 
 export function fetchChat(chatId) {
   return (dispatch, getState) => {
-    const { token } = getState().auth
+    const { token } = getState().auth;
     const { isFetching } = getState().services;
 
     if (isFetching.chat) {
@@ -62,41 +60,38 @@ export function fetchChat(chatId) {
     }
     dispatch({
       type: TYPES.FETCH_CHAT_REQUEST,
-    })
+    });
 
     return callApi(`/chats/${chatId}`, token)
-      .then(data => {
+      .then((data) => {
         dispatch({
           type: TYPES.FETCH_CHAT_SUCCESS,
-          payload: data
+          payload: data,
         });
 
-        return data
+        return data;
       })
       .catch(error => dispatch({
         type: TYPES.FETCH_CHAT_FAILURE,
-        payload: error
-      }))
-  }
+        payload: error,
+      }));
+  };
 }
 
 export function setActiveChat(chatId) {
-  return (dispatch, getState) => {
-    return dispatch(fetchChat(chatId))
-      .then(data => {
-        if (!data) {
-          dispatch(redirect('/chat'));
+  return dispatch => dispatch(fetchChat(chatId)).then((data) => {
+    if (!data) {
+      dispatch(redirect('/chat'));
 
-          return dispatch({
-            type: TYPES.UNSET_ACTIVE_CHAT,
-          });
-        }
-        dispatch({
-          type: TYPES.SET_ACTIVE_CHAT,
-          payload: data,
-        })
-      })
-  }
+      return dispatch({
+        type: TYPES.UNSET_ACTIVE_CHAT,
+      });
+    }
+    return dispatch({
+      type: TYPES.SET_ACTIVE_CHAT,
+      payload: data,
+    });
+  });
 }
 
 export function createChat(title) {
@@ -110,12 +105,17 @@ export function createChat(title) {
 
     dispatch({
       type: TYPES.CREATE_CHAT_REQUEST,
-      payload: { title }
-    })
+      payload: { title },
+    });
 
-    return callApi('/chats', token, { method: 'POST' }, {
-      data: { title }
-    })
+    return callApi(
+      '/chats',
+      token,
+      { method: 'POST' },
+      {
+        data: { title },
+      },
+    )
       .then(({ chat }) => {
         dispatch({
           type: TYPES.CREATE_CHAT_SUCCESS,
@@ -144,11 +144,11 @@ export function deleteChat(chatId) {
 
     dispatch({
       type: TYPES.DELETE_CHAT_REQUEST,
-      payload: { chatId }
+      payload: { chatId },
     });
 
     return callApi(`/chats/${chatId}`, token, { method: 'DELETE' })
-      .then(data => {
+      .then((data) => {
         dispatch({
           type: TYPES.DELETE_CHAT_SUCCESS,
           payload: data,
@@ -166,7 +166,7 @@ export function deleteChat(chatId) {
         type: TYPES.DELETE_CHAT_FAILURE,
         payload: reason,
       }));
-  }
+  };
 }
 
 export function joinChat(chatId) {
@@ -180,14 +180,14 @@ export function joinChat(chatId) {
 
     dispatch({
       type: TYPES.JOIN_CHAT_REQUEST,
-      payload: { chatId }
+      payload: { chatId },
     });
 
     return callApi(`/chats/${chatId}/join`, token)
       .then(({ chat }) => {
         dispatch({
           type: TYPES.JOIN_CHAT_SUCCESS,
-          payload: { chat }
+          payload: { chat },
         });
 
         dispatch(redirect(`/chat/${chat._id}`));
@@ -210,14 +210,13 @@ export function leaveChat(chatId) {
       return Promise.resolve();
     }
 
-
     dispatch({
       type: TYPES.LEAVE_CHAT_REQUEST,
-      payload: { chatId }
+      payload: { chatId },
     });
 
     return callApi(`/chats/${chatId}/leave`, token)
-      .then(data => {
+      .then((data) => {
         dispatch({
           type: TYPES.LEAVE_CHAT_SUCCESS,
           payload: data,
@@ -235,5 +234,5 @@ export function leaveChat(chatId) {
         type: TYPES.LEAVE_CHAT_FAILURE,
         payload: reason,
       }));
-  }
+  };
 }

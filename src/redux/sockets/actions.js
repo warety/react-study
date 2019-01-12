@@ -1,12 +1,12 @@
-import TYPES from './constants';
 import SocketIOClient from 'socket.io-client';
+import TYPES from './constants';
 import { redirect } from '../services/actions';
 
 export function missingSocketConnection() {
   return {
     type: TYPES.SOCKETS_CONNECTION_MISSING,
     payload: new Error('Missing connection'),
-  }
+  };
 }
 
 let socket = null;
@@ -21,59 +21,61 @@ export function socketsConnect() {
     }
 
     dispatch({
-      type: TYPES.SOCKETS_CONNECTION_REQUEST
-    })
+      type: TYPES.SOCKETS_CONNECTION_REQUEST,
+    });
 
     socket = SocketIOClient('ws://localhost:8000/', {
-      query: { token }
-    })
+      query: { token },
+    });
 
     socket.on('connect', () => {
       dispatch({
         type: TYPES.SOCKETS_CONNECTION_SUCCESS,
-      })
+      });
     });
 
     socket.on('error', (error) => {
       dispatch({
         type: TYPES.SOCKETS_CONNECTION_FAILURE,
         payload: new Error(`Connection ${error}`),
-      })
+      });
     });
 
     socket.on('connect_error', () => {
       dispatch({
         type: TYPES.SOCKETS_CONNECTION_FAILURE,
         payload: new Error('We have lost connection'),
-      })
+      });
     });
 
     socket.on('new-message', (message) => {
       dispatch({
         type: TYPES.RECIEVE_MESSAGE,
         payload: message,
-      })
-    })
+      });
+    });
 
     socket.on('new-chat', ({ chat }) => {
       dispatch({
         type: TYPES.RECIEVE_NEW_CHAT,
         payload: chat,
-      })
-    })
+      });
+    });
 
     socket.on('deleted-chat', ({ chat }) => {
       const { activeId } = getState().chats;
       dispatch({
         type: TYPES.RECIEVE_DELETED_CHAT,
         payload: chat,
-      })
+      });
 
-      if (activeId == chat._id) {
+      if (activeId === chat._id) {
         dispatch(redirect('/chat'));
       }
-    })
-  }
+    });
+
+    return Promise.resolve();
+  };
 }
 
 export function sendMessage(content) {
@@ -84,10 +86,13 @@ export function sendMessage(content) {
       dispatch(missingSocketConnection());
     }
 
-    socket.emit('send-message', {
+    socket.emit(
+      'send-message',
+      {
         chatId: activeId,
         content,
-      }, () => {
+      },
+      () => {
         dispatch({
           type: TYPES.SEND_MESSAGE,
           payload: {
