@@ -19,8 +19,7 @@ const ChatList = ({
       <ChatListItem
         disabled={disabled}
         key={chat._id}
-        active={activeChat && activeChat._id === chat._id}
-        title={chat.title}
+        active={Boolean(activeChat && activeChat._id === chat._id)}
         chatId={chat._id}
         {...chat}
       />
