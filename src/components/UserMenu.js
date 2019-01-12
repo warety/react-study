@@ -48,11 +48,11 @@ class UserMenu extends React.Component {
   };
 
   onInputChange = (event) => {
-    const { editProfileForm } = this.state;
+    event.persist();
     this.setState(prevState => ({
-      prevState,
+      ...prevState,
       editProfileForm: {
-        ...editProfileForm,
+        ...prevState.editProfileForm,
         [event.target.name]: event.target.value,
       },
     }));
