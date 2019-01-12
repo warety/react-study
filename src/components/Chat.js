@@ -13,7 +13,8 @@ const styles = () => ({
     alignItems: 'center',
     paddingTop: '64px',
     height: '100%',
-    width: '100%',
+    width: 'calc(100%-320px)',
+    paddingLeft: '320px',
     overflow: 'hidden',
   },
 });

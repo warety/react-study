@@ -14,8 +14,9 @@ let socket = null;
 
 export function socketsConnect() {
   return (dispatch, getState) => {
-    const { token } = getState().auth;
-    const { isFetching } = getState().services;
+    const state = getState();
+    const { isFetching } = state.services;
+    const { token } = state.auth;
 
     if (isFetching.sockets) {
       return Promise.resolve();
@@ -38,14 +39,14 @@ export function socketsConnect() {
     socket.on('error', (error) => {
       dispatch({
         type: TYPES.SOCKETS_CONNECTION_FAILURE,
-        payload: new Error(`Connection ${error}`),
+        payload: new Error(`Connection: ${error}`),
       });
     });
 
     socket.on('connect_error', () => {
       dispatch({
         type: TYPES.SOCKETS_CONNECTION_FAILURE,
-        payload: new Error('We have lost connection'),
+        payload: new Error('We have lost a connection :('),
       });
     });
 
@@ -59,15 +60,16 @@ export function socketsConnect() {
     socket.on('new-chat', ({ chat }) => {
       dispatch({
         type: TYPES.RECIEVE_NEW_CHAT,
-        payload: chat,
+        payload: { chat },
       });
     });
 
     socket.on('deleted-chat', ({ chat }) => {
       const { activeId } = getState().chats;
+
       dispatch({
         type: TYPES.RECIEVE_DELETED_CHAT,
-        payload: chat,
+        payload: { chat },
       });
 
       if (activeId === chat._id) {
