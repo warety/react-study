@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
@@ -6,6 +7,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import EditUserProfileModal from './EditUserProfileModal';
 
 class UserMenu extends React.Component {
+  static propTypes = {
+    activeUser: PropTypes.func.isRequired,
+    editUser: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
+  };
+
   state = {
     anchorEl: null,
     modalOpen: false,

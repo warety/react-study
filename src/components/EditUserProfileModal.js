@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, TextField } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import { withStyles } from '@material-ui/core/styles/index';
@@ -66,6 +67,19 @@ const EditUserModal = ({
       </Paper>
     </Modal>
   );
+};
+
+EditUserModal.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  open: PropTypes.bool.isRequired,
+  editUser: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  changeField: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default withStyles(styles)(EditUserModal);

@@ -1,7 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, TextField } from '@material-ui/core';
 
 class LoginForm extends React.Component {
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   state = {
     login: '',
     password: '',

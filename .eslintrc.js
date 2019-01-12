@@ -10,7 +10,7 @@ module.exports = {
     'import/no-named-as-default-member': 'off',
     'import/named': 'off',
     'no-underscore-dangle': 'off',
-    'react/prop-types': 'off',
+    'react/prop-types': 1,
     'react/destructuring-assignment': 'off',
   },
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
@@ -27,6 +28,11 @@ const styles = theme => ({
 });
 
 class AddChat extends React.Component {
+  static propTypes = {
+    classes: PropTypes.objectOf(PropTypes.string).isRequired,
+    onClick: PropTypes.func.isRequired,
+  };
+
   state = {
     modalOpen: false,
     title: '',

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,6 +19,17 @@ const styles = theme => ({
 });
 
 class ChatMenu extends React.Component {
+  static propTypes = {
+    activeUser: PropTypes.shape({
+      isMember: PropTypes.bool.isRequired,
+      isCreator: PropTypes.bool.isRequired,
+      isChatMember: PropTypes.bool.isRequired,
+    }).isRequired,
+    disabled: PropTypes.bool.isRequired,
+    onLeaveClick: PropTypes.func.isRequired,
+    onDeleteClick: PropTypes.func.isRequired,
+  };
+
   state = {
     anchorEl: null,
   };
